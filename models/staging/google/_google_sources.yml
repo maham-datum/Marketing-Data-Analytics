@@ -4,6 +4,6 @@ sources:
     database: postgres
     schema: google_ads
     tables:
-      - name: ad_stats
+      - name: search_term_keyword_stats
       - name: ad_group_history
       - name: campaign_history

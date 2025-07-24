@@ -8,28 +8,28 @@ campaigns as (
     from {{ ref('stg_google__campaign_history') }}
 ),
 
-ad_stats_cleaned as (
+search_term_keyword_cleaned as (
     select
         date,
-        ad_id,
+        keyword,
         ad_group_id,
         campaign_id,
         coalesce(clicks, 0) as clicks,
         coalesce(impressions, 0) as impressions,
         coalesce(spent, 0) / 1000000.0 as spent
-    from {{ ref('stg_google__ad_stats') }}
+    from {{ ref('stg_google__search_term_keyword_stats') }}
 ),
 
 joined as (
     select
         a.date,
-        a.ad_id,
+        a.keyword,
         ag.ad_group_name,
         c.campaign_name,
         a.clicks,
         a.impressions,
         a.spent
-    from ad_stats_cleaned a
+    from search_term_keyword_cleaned a
     left join ad_groups ag on a.ad_group_id = ag.ad_group_id
     left join campaigns c on a.campaign_id = c.campaign_id
 ),
@@ -38,7 +38,7 @@ aggregated as (
     select
         date,
         'google' as platform,
-        ad_id,
+        keyword,
         ad_group_name,
         campaign_name,
         sum(clicks) as clicks,
@@ -47,7 +47,7 @@ aggregated as (
         case when sum(clicks) > 0 then round(sum(spent)::decimal / sum(clicks), 2) else 0 end as cpc,
         round(sum(spent),2) as total_spent
     from joined
-    group by date, ad_id, ad_group_name, campaign_name
+    group by date, keyword, ad_group_name, campaign_name
 )
 
 select *

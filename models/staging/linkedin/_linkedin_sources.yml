@@ -7,3 +7,4 @@ sources:
       - name: ad_analytics_by_campaign
       - name: campaign_history
       - name: campaign_group_history
+      - name: creative_history
