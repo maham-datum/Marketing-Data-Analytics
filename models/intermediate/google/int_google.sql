@@ -43,9 +43,9 @@ aggregated as (
         campaign_name,
         sum(clicks) as clicks,
         sum(impressions) as impressions,
-        round(sum(spent),2) as total_spent,
         case when sum(impressions) > 0 then round(sum(clicks)::decimal / sum(impressions), 2) else 0 end as ctr,
-        case when sum(clicks) > 0 then round(sum(spent)::decimal / sum(clicks), 2) else 0 end as cpc
+        case when sum(clicks) > 0 then round(sum(spent)::decimal / sum(clicks), 2) else 0 end as cpc,
+        round(sum(spent),2) as total_spent,
     from joined
     group by date, ad_id, ad_group_name, campaign_name
 )
