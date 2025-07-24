@@ -34,3 +34,4 @@ aggregated as (
 
 select *
 from aggregated
+order by date
