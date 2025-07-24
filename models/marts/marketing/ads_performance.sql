@@ -34,7 +34,7 @@ linkedin as (
         platform,
         campaign_name,
         campaign_group_name as "ad_group_name",
-        null as "ad_name/keyword",
+        creative_name as "ad_name/keyword",
         clicks,
         impressions,
         ctr,
