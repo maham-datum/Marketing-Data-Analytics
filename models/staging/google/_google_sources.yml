@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: google
+    database: postgres
+    schema: google_ads
+    tables:
+      - name: ad_stats
+      - name: ad_group_history
+      - name: campaign_history

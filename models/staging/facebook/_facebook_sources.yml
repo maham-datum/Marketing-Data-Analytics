@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: facebook
+    database: postgres
+    schema: facebooks_ads
+    tables:
+      - name: basic_all_levels
