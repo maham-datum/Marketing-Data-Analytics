@@ -1,16 +1,29 @@
-with aggregated as (
+with cleaned as (
     select
-        date,                     
-        platform,                
+        date,
+        platform,
+        campaign_name,
+        adset_name,
+        ad_name,
+        coalesce(impressions, 0) as impressions,
+        coalesce(clicks, 0) as clicks,
+        coalesce(spend, 0) as spend
+    from {{ ref('stg_facebook_all_levels') }}
+),
+
+aggregated as (
+    select
+        date,
+        platform,
         campaign_name,
         adset_name,
         ad_name,
         sum(impressions) as impressions,
         sum(clicks) as clicks,
-        sum(spend) as total_spend,
-        case when sum(impressions) > 0 then sum(clicks)::float / sum(impressions) else null end as ctr,
-        case when sum(clicks) > 0 then sum(spend)::float / sum(clicks) else null end as cpc
-    from {{ ref('stg_facebook_all_levels') }}
+        sum(spend) as total_spent,
+        case when sum(impressions) > 0 then round(sum(clicks)::decimal / sum(impressions), 2) else 0 end as ctr,
+        case when sum(clicks) > 0 then round(sum(spend)::decimal / sum(clicks), 2) else 0 end as cpc
+    from cleaned
     group by
         date,
         platform,
@@ -18,4 +31,6 @@ with aggregated as (
         adset_name,
         ad_name
 )
-select * from aggregated
+
+select *
+from aggregated
