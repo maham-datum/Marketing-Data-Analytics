@@ -1,5 +1,8 @@
 Welcome to your new dbt project!
 
+#final documentaion link
+https://docs.google.com/document/d/1s7-2SJwEMqWkNMSdSiUjobjpX563KlDW/edit?usp=sharing&ouid=118107289487491600209&rtpof=true&sd=true
+
 ### Using the starter project
 
 Try running the following commands:
